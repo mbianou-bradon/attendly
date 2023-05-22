@@ -16,16 +16,28 @@ const styles = StyleSheet.create({
     coverImageContainer : {
 
     },
+    coverImageStyles : {
+        width: "100%",
+        height: "100%",
+    },
     profileImageContainer : {
         backgroundColor : colors.neutral_white,
         width: 125,
         height: 125,
         borderRadius: 70,
+        // borderWidth: 3,
+        // borderColor: colors.primary,
+        padding: 5,
         zIndex: 50,
-        elevation: 2,
+        elevation: 5,
         position: "absolute",
         top: "50%",
-        left: "30%"
+        left: "32%"
+    },
+    profileImageStyles : {
+        width: "100%",
+        height: "100%",
+        borderRadius: 70,
     },
     shortDetailsContainer : {
         justifyContent: "center",
@@ -49,9 +61,10 @@ const styles = StyleSheet.create({
     basicInfoTitleText : {
         fontSize : 20,
         marginBottom : 50,
+        fontWeight: "700",
     },
     infoSubContainer : {
-        gap: 25
+        gap: 35
     },
     userDetailsContainer : {
         flexDirection: "row",
@@ -64,7 +77,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color : colors.primary,
         fontWeight: "800",
-        lineHeight: 25,
     }
 });
 

@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import styles from "./Profile.screen.styles";
 
 
@@ -10,8 +10,12 @@ export default function Profile(){
         <View style={styles.profileMainContainer}>
             <View>
                 <View style={styles.headerContainer}>
-                    <View style={styles.coverImageContainer}></View>
-                    <View style={styles.profileImageContainer}></View>
+                    <View style={styles.coverImageContainer}>
+                        {/* <Image source={require("")} style={styles.coverImageStyles}/> */}
+                    </View>
+                    <View style={styles.profileImageContainer}>
+                        <Image source={require("../../assets/images/MBIANOU_TOUSSOM_COLBERT_BRADON_card.png")} style={styles.profileImageStyles}/>
+                    </View>
                 </View>
                 <View style={styles.shortDetailsContainer}>
                     <Text style={styles.userName}>MBIANOU TOUSSOM COLBERT BRADON</Text>
