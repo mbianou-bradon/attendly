@@ -1,30 +1,36 @@
 import { Text, View } from "react-native";
+import styles from "./Home.screen.styles";
+import Button from "../../components/Button/Button";
 
 
 
 export default function Home(){
 
     return(
-        <View>
+        <View style={styles.homeMainContainer}>
             <View>
-                <View>
-                    <Text>ATTENDLY</Text>
+                <View style={styles.logoContainer}>
+                    <Text style={styles.logoText}>ATTENDLY</Text>
                 </View>
 
                 <View>
                     <View>
-                        <Text>Hello Mbianou</Text>
-                        <Text>Matricule: FE19A060</Text>
+                        <Text style={styles.welcomeUser}>Hello Mbianou</Text>
+                        <Text style={styles.userDetails}>Matricule: FE19A060</Text>
+                        <Text style={styles.userDetails}>Dept: Computer Engineering</Text>
                     </View>
 
-                    <View>
-                        <Text>Mark Attendance</Text>
-                        <View>
-                            <Text>Select Course</Text>
+                    <View style={styles.attendanceContainer}>
+                        <Text style={styles.markAttendanceText}>Mark Attendance</Text>
+                        <View style={styles.dropdownContainer}>
+                            <Text style={styles.dropdownText}>Select Level</Text>
+                        </View>
+                        <View style={styles.dropdownContainer}>
+                            <Text style={styles.dropdownText}>Select Course</Text>
                         </View>
 
-                        <View>
-                            <Text>Make Present</Text>
+                        <View style={styles.btnContainer}>
+                            <Button text="Make Present" />
                         </View>
                     </View>
                 </View>

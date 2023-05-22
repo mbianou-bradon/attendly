@@ -64,6 +64,10 @@ const styles =  StyleSheet.create({
         marginBottom: 10,
         alignItems:"flex-end"
     },
+    forgotPasswordText: {
+        fontSize: 12,
+        color: "grey"
+    },
     bottomContainer : {
         flexDirection: "row",
         gap: 5,
