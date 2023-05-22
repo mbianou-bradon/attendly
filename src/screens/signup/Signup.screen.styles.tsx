@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     },
     signupTitle : {
         fontSize: 20,
-        fontWeight: "600",
+        fontWeight: "800",
         color: colors.neutral_black,
         marginBottom: 10,
     },
