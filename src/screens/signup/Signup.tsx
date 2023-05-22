@@ -5,6 +5,9 @@ import Ionicons from "react-native-vector-icons/Ionicons"
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import Button from "../../components/Button/Button";
+import { NativeStackParams } from "../../../App";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 
 
 
@@ -16,6 +19,12 @@ export default function Signup(){
     const [department, setDepartment] = React.useState<string>("");
     const [password, setPassword] = React.useState<string>("");
     const [confirmPassword, setConfirmPassword] = React.useState<string>("");
+
+    const nativeNavigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>();
+
+    const handleSignUp = () => {
+        nativeNavigation.navigate("Main");
+    }
 
     return(
         <View style={styles.mainContainer}>
@@ -81,12 +90,12 @@ export default function Signup(){
                 </View>
 
                 <View style={styles.btnContainer}>
-                    <Button text="Sign Up" />
+                    <Button text="Sign Up" onPress={handleSignUp}/>
                 </View>
 
                 <View style={styles.bottomContainer}>
                     <Text style={styles.bottomText}>Have An Account?</Text>
-                    <Pressable>
+                    <Pressable onPress={()=>nativeNavigation.navigate("Login")}>
                         <Text style={styles.signinText}>SignIn</Text>
                     </Pressable>
                 </View>

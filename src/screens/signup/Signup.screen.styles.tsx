@@ -7,13 +7,13 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         justifyContent: "center",
-        paddingHorizontal: 40,
+        
         paddingTop: 20,
-        paddingBottom: 5
-        // backgroundColor: colors.neutral_white
+        paddingBottom: 5,
+        backgroundColor: colors.neutral_white
     },
     scrollViewContainer: {
-        
+        paddingHorizontal: 40,
     },
     logoContainer: {
         justifyContent: "center",

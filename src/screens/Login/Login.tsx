@@ -5,6 +5,9 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Button from "../../components/Button/Button";
 import styles from "./Login.screen.styles";
 import colors from "../../theme/theme";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { NativeStackParams } from "../../../App";
 
 
 
@@ -13,6 +16,11 @@ export default function Login(){
     const [matricule, setMatricule] = React.useState<string>("");
     const [password, setPassword] = React.useState<string>("");
 
+    const nativeNavigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>();
+
+    const handleLogin = () => {
+        nativeNavigation.replace("Main");
+    }
 
     return (
         <View style={styles.loginMainContainer}>
@@ -45,13 +53,13 @@ export default function Login(){
                     <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
                 </Pressable>
                 <View style={styles.btnContainer}>
-                    <Button text="Login" />
+                    <Button text="Login" onPress={handleLogin}/>
                 </View>
 
 
                 <View style={styles.bottomContainer}>
                     <Text style={styles.bottomText}>Don't Have An Account?</Text>
-                    <Pressable>
+                    <Pressable onPress={()=>nativeNavigation.navigate("Sign Up")}>
                         <Text style={styles.signupText}>SignUp</Text>
                     </Pressable> 
                 </View>

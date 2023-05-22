@@ -1,4 +1,4 @@
-import { Image, Text, View } from "react-native";
+import { Image, ScrollView, Text, View } from "react-native";
 import styles from "./Profile.screen.styles";
 
 
@@ -8,7 +8,7 @@ export default function Profile(){
 
     return (
         <View style={styles.profileMainContainer}>
-            <View>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.headerContainer}>
                     <View style={styles.coverImageContainer}>
                         {/* <Image source={require("")} style={styles.coverImageStyles}/> */}
@@ -51,7 +51,7 @@ export default function Profile(){
                         </View>
                     </View>
                 </View>
-            </View> 
+            </ScrollView> 
         </View>
     )
 }
