@@ -24,7 +24,7 @@ export default function Login(){
                 <View>
                     <View>
                         <View></View>
-                        <TextInput placeholder="Matricule Number" onChangeText={(value)=>setMatricule(value)} />
+                        <TextInput placeholder="Matriculation Number" onChangeText={(value)=>setMatricule(value)} />
                     </View>
 
                     <View>
