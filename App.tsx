@@ -39,6 +39,11 @@ const TabNavigationRoute = () : JSX.Element => {
 
   return(
     <Tab.Navigator initialRouteName='Home'
+    // tabBarOptions={{
+    //     style: {
+    //       backgroundColor: '#f4511e',
+    //     },
+    //   }}
       screenOptions={({route})=> ({
         tabBarIcon : ({ size, focused, color}) => {
           let iconName : string = "";
