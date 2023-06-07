@@ -8,6 +8,7 @@ import colors from "../../theme/theme";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { NativeStackParams } from "../../../App";
+import client from "../../api/axios";
 
 
 
@@ -19,7 +20,15 @@ export default function Login(){
     const nativeNavigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>();
 
     const handleLogin = () => {
-        nativeNavigation.replace("Main");
+        client.get("/api/login")
+        .then((response)=>{
+
+            nativeNavigation.replace("Main");
+        })
+        .catch((error)=>{
+            console.log("Login error: ", error)
+        })
+        
     }
 
     return (
