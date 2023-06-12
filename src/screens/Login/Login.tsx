@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { Pressable, ScrollView, Text, TextInput, ToastAndroid, View } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Button from "../../components/Button/Button";
@@ -20,14 +20,39 @@ export default function Login(){
     const nativeNavigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>();
 
     const handleLogin = () => {
-        client.get("/api/login")
-        .then((response)=>{
+        if(matricule === ""){
+            ToastAndroid.showWithGravity(
+                "Matricule Number required",
+                ToastAndroid.LONG,
+                ToastAndroid.CENTER
+            )
+        } else if (password === "") {
+            ToastAndroid.showWithGravity(
+                "Password Required!",
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            )
+        } else {
+            client.get("/api/login", {
+                params : {
+                    matricule,
+                    password
+                }
+            })
+            .then((response)=>{
 
-            nativeNavigation.replace("Main");
-        })
-        .catch((error)=>{
-            console.log("Login error: ", error)
-        })
+                nativeNavigation.replace("Main");
+            })
+            .catch((error)=>{
+                console.log("Login error: ", error)
+                ToastAndroid.showWithGravity(
+                    error.message,
+                    ToastAndroid.LONG,
+                    ToastAndroid.CENTER
+                )
+                // nativeNavigation.replace("Main");
+            })
+        }
         
     }
 
