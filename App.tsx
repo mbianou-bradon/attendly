@@ -1,10 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
 import {
   StatusBar,
@@ -19,6 +12,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from "react-native-vector-icons/Ionicons"
+import SplashScreen from 'react-native-splash-screen';
 
 
 export type NativeStackParams = {
@@ -75,7 +69,10 @@ const TabNavigationRoute = () : JSX.Element => {
 
 
 function App(): JSX.Element {
-  
+
+  React.useEffect(()=>{
+    SplashScreen.hide();
+  },[])
 
   return (
     <NavigationContainer>
