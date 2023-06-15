@@ -8,6 +8,7 @@ import Button from "../../components/Button/Button";
 import { NativeStackParams } from "../../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import client from "../../api/axios";
 
 
 
@@ -22,8 +23,18 @@ export default function Signup(){
 
     const nativeNavigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>();
 
+    const newStudent = {
+        matricule, fullName, email, faculty, department, password, confirmPassword
+    }
+
     const handleSignUp = () => {
-        nativeNavigation.navigate("Main");
+        client.post("/student", newStudent)
+        .then((response)=>{
+            nativeNavigation.navigate("Main");
+        }).catch((error)=>{
+            console.log("SignUp error", error)
+        })
+        
     }
 
     return(
