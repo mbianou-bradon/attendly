@@ -50,6 +50,9 @@ export default function Profile(){
                             </View>
                         </View>
                     </View>
+                    <View style={styles.reportTextContainer}>
+                        <Text style={styles.reportText}>Report to your Faculty for any error on your personal Information</Text>
+                    </View>
                 </View>
             </ScrollView> 
         </View>

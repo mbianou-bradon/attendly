@@ -77,6 +77,15 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color : colors.primary,
         fontWeight: "800",
+    },
+    reportTextContainer : {
+        marginTop : 10,
+        justifyContent : "center",
+        alignItems : "center"
+    },
+    reportText : {
+        fontSize : 10,
+        color : colors.primary
     }
 });
 

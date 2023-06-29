@@ -4,7 +4,7 @@ import colors from "../../theme/theme";
 
 interface ButtonType {
     text : string,
-    onPress : () => void;
+    onPress? : () => void;
 }
 
 export default function Button(props : ButtonType){

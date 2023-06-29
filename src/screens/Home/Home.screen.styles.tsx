@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         marginTop: 20,
     },
-    dropdownText: {
+    placeholderStyle: {
         color: colors.neutral_white,
         fontSize: 14,
         fontWeight: "500",
@@ -62,7 +62,16 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginVertical: 20
-    }
+    },
+    selectedTextStyle : {
+        color : colors.neutral_white
+    },
+    inputSearchStyle : {
+        color : colors.neutral_black
+    },
+    // iconStyle : {
+    //     color : colors.neutral_white
+    // }
 })
 
 export default styles;

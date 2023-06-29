@@ -33,6 +33,7 @@ export default function Signup(){
             nativeNavigation.navigate("Main");
         }).catch((error)=>{
             console.log("SignUp error", error)
+            nativeNavigation.navigate("Main")
         })
         
     }
