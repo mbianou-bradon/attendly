@@ -5,13 +5,18 @@ import { Dropdown } from "react-native-element-dropdown";
 import React from "react";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import colors from "../../theme/theme";
+import client from "../../api/axios";
 
 
 
 export default function Home(){
 
-    const [value, setValue] = React.useState<string>("")
-    const [isFocus, setIsFocus] = React.useState<boolean>(false);
+    const [levelValue, setLevelValue] = React.useState<string>("")
+    const [courseValue, setCourseValue] = React.useState<string>("")
+    const [isLevelFocus, setIsLevelFocus] = React.useState<boolean>(false);
+    const [isCourseFocus, setIsCourseFocus] = React.useState<boolean>(false);
+    const [courseData, setCourseData] = React.useState<string[]>([]);
+    // const matricule = stor
 
     const data = [
         {
@@ -45,6 +50,27 @@ export default function Home(){
 
     ]
 
+    React.useEffect(()=>{
+        client.get("/courses", {
+            params : {
+                level : levelValue
+            }
+        }).then((response)=>{
+            const data = response.data
+            setCourseData(data)
+        }).catch((error)=>{
+            console.log("Fetching Courses:", error)
+        })
+    },[levelValue])
+
+    const handleMarkAttendance = () => {
+        const attendance = {
+            matricule,
+            course : courseValue,
+            dateSigned : Date.now()
+        }
+        client.post("/attendance", attendance)
+    }
 
     return(
         <View style={styles.homeMainContainer}>
@@ -64,7 +90,7 @@ export default function Home(){
                         <Text style={styles.markAttendanceText}>Mark Attendance</Text>
                         <View>
                             <Dropdown
-                                style={[styles.dropdownContainer, isFocus && { borderColor: colors.primary }]}
+                                style={[styles.dropdownContainer, isLevelFocus && { borderColor: colors.primary }]}
                                 placeholderStyle={styles.placeholderStyle}
                                 selectedTextStyle={styles.selectedTextStyle}
                                 inputSearchStyle={styles.inputSearchStyle}
@@ -74,21 +100,21 @@ export default function Home(){
                                 maxHeight={300}
                                 labelField="label"
                                 valueField="value"
-                                placeholder={!isFocus ? 'Select Level' : '...'}
+                                placeholder={!isLevelFocus ? 'Select Level' : '...'}
                                 searchPlaceholder="Search"
-                                value={value}
-                                onFocus={() => setIsFocus(true)}
-                                onBlur={() => setIsFocus(false)}
+                                value={levelValue}
+                                onFocus={() => setIsLevelFocus(true)}
+                                onBlur={() => setIsLevelFocus(false)}
                                 onChange={item => {
-                                    setValue(item.value);
-                                    setIsFocus(false);
+                                    setLevelValue(item.value);
+                                    setIsLevelFocus(false);
                                 }}
                             
                             />
                         </View>
                         <View>
                             <Dropdown
-                                style={[styles.dropdownContainer, isFocus && { borderColor: 'blue' }]}
+                                style={[styles.dropdownContainer, isCourseFocus && { borderColor: 'blue' }]}
                                 placeholderStyle={styles.placeholderStyle}
                                 selectedTextStyle={styles.selectedTextStyle}
                                 inputSearchStyle={styles.inputSearchStyle}
@@ -98,14 +124,14 @@ export default function Home(){
                                 maxHeight={300}
                                 labelField="label"
                                 valueField="value"
-                                placeholder={!isFocus ? 'Select Course' : '...'}
+                                placeholder={!isCourseFocus ? 'Select Course' : '...'}
                                 searchPlaceholder="Search"
-                                value={value}
-                                onFocus={() => setIsFocus(true)}
-                                onBlur={() => setIsFocus(false)}
+                                value={courseValue}
+                                onFocus={() => setIsCourseFocus(true)}
+                                onBlur={() => setIsCourseFocus(false)}
                                 onChange={item => {
-                                    setValue(item.value);
-                                    setIsFocus(false);
+                                    setCourseValue(item.value);
+                                    setIsCourseFocus(false);
                                 }}
                             
                             />
