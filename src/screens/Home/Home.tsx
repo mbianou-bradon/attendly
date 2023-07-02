@@ -7,6 +7,7 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import colors from "../../theme/theme";
 import client from "../../api/axios";
 import { store } from "../../redux/store/store";
+import { Attendance } from "../../utils/dataTypes";
 
 
 
@@ -65,12 +66,18 @@ export default function Home(){
     },[levelValue])
 
     const handleMarkAttendance = () => {
-        const attendance = {
-            matricule,
-            course : courseValue,
-            dateSigned : Date.now()
+        const attendance : Attendance = {
+            studentMatriculeNumber : matricule,
+            courseCode : courseValue,
+            dateSigned : String(Date.now())
         }
         client.post("/attendance", attendance)
+        .then((response) =>{
+            const data = response.data
+            console.log(data)
+        }).catch((error)=>{
+            console.log("Attendance Recording:", error)
+        })
     }
 
     return(

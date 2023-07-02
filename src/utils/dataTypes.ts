@@ -19,5 +19,5 @@ export interface Course {
 export interface Attendance {
     studentMatriculeNumber : string,
     courseCode : string,
-    dateSigned : Date
+    dateSigned : string
 }
