@@ -6,6 +6,7 @@ import React from "react";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import colors from "../../theme/theme";
 import client from "../../api/axios";
+import { store } from "../../redux/store/store";
 
 
 
@@ -16,7 +17,7 @@ export default function Home(){
     const [isLevelFocus, setIsLevelFocus] = React.useState<boolean>(false);
     const [isCourseFocus, setIsCourseFocus] = React.useState<boolean>(false);
     const [courseData, setCourseData] = React.useState<string[]>([]);
-    // const matricule = stor
+    const matricule = store.getState().currentUser.matriculeNumber;
 
     const data = [
         {
