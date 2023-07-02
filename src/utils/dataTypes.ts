@@ -9,3 +9,15 @@ export interface User {
     confirmPassword : string
     institutionalEmail : string
 }
+
+export interface Course {
+    courseTitle : string,
+    courseCode : string, 
+    openForAttendance : boolean
+}
+
+export interface Attendance {
+    studentMatriculeNumber : string,
+    courseCode : string,
+    dateSigned : Date
+}
