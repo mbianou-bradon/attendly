@@ -147,7 +147,7 @@ export default function Home(){
                         </View>
 
                         <View style={styles.btnContainer}>
-                            <Button text="Make Present" />
+                            <Button text="Make Present" onPress={()=>handleMarkAttendance()}/>
                         </View>
                     </View>
                 </View>
