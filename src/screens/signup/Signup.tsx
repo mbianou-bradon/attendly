@@ -9,22 +9,25 @@ import { NativeStackParams } from "../../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import client from "../../api/axios";
-
+import { User } from "../../utils/dataTypes";
+import { Dropdown } from "react-native-element-dropdown";
 
 
 export default function Signup(){
-    const [matricule, setMatricule] = React.useState<string>("");
     const [fullName, setFullName] = React.useState<string>("");
     const [email, setEmail] = React.useState<string>("");
     const [faculty, setFaculty] = React.useState<string>("");
     const [department, setDepartment] = React.useState<string>("");
+    const [phoneNumber, setPhoneNumber] = React.useState<string>("");
     const [password, setPassword] = React.useState<string>("");
     const [confirmPassword, setConfirmPassword] = React.useState<string>("");
 
     const nativeNavigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>();
 
-    const newStudent = {
-        matricule, fullName, email, faculty, department, password, confirmPassword
+    const newStudent : User = {
+        studentName: fullName, email, faculty, department, password, confirmPassword,
+        phoneNumber: phoneNumber,
+        role: "student",
     }
 
     const handleSignUp = () => {
@@ -51,12 +54,12 @@ export default function Signup(){
                 </View>
 
                 <View>
-                    <View style={styles.iconsContainer}>
+                    {/* <View style={styles.iconsContainer}>
                         <View style={styles.iconContainer}>
                             <AntDesign name="idcard" color={styles.iconsColor.color} size={25} />
                         </View>
                         <TextInput placeholder="Matriculation Number" onChangeText={(value)=>setMatricule(value)} />
-                    </View>
+                    </View> */}
 
                     <View style={styles.iconsContainer}>
                         <View style={styles.iconContainer}>
@@ -69,7 +72,7 @@ export default function Signup(){
                         <View style={styles.iconContainer}>
                             <MaterialIcons name="email" color={styles.iconsColor.color} size={25} />
                         </View>
-                        <TextInput placeholder="Institutional Email" onChangeText={(value)=>setEmail(value)} />
+                        <TextInput placeholder="Email address" onChangeText={(value)=>setEmail(value)} />
                     </View>
 
                     <View style={styles.iconsContainer}>
@@ -84,6 +87,13 @@ export default function Signup(){
 
                         </View>
                         <TextInput placeholder="Department" onChangeText={(value)=>setDepartment(value)} />
+                    </View>
+
+                    <View style={styles.iconsContainer}>
+                        <View style={styles.iconContainer}>
+
+                        </View>
+                        <TextInput placeholder="Phone Number" onChangeText={(value)=>setPhoneNumber(value)} />
                     </View>
 
                     <View style={styles.iconsContainer}>
