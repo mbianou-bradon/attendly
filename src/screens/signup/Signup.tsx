@@ -11,6 +11,8 @@ import { useNavigation } from "@react-navigation/native";
 import client from "../../api/axios";
 import { User } from "../../utils/dataTypes";
 import { Dropdown } from "react-native-element-dropdown";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import getAsyncData from "../../utils/getAsyncStorage";
 
 
 export default function Signup(){
@@ -22,6 +24,13 @@ export default function Signup(){
     const [password, setPassword] = React.useState<string>("");
     const [confirmPassword, setConfirmPassword] = React.useState<string>("");
 
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [loadingMessage, setLoadingMessage] = React.useState<string>("");
+
+    /**Dropdown data */
+    const [facultyData, setFacultyData] = React.useState([]);
+    const [departmentData, setDepartmentData] = React.useState([]);
+
     const nativeNavigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>();
 
     const newStudent : User = {
@@ -30,6 +39,31 @@ export default function Signup(){
         role: "student",
     }
 
+    React.useEffect(()=>{
+        const facultList = getAsyncData("facultyList")
+        if(!facultList){
+            client.get("/api/faculty")
+            .then((response)=>{
+                setFacultyData(facultList)
+            }).catch((error)=>{
+                console.log("faculty error:", error)
+            })
+        }
+        
+    },[])
+
+    React.useEffect(()=>{
+        setIsLoading(true);
+        setLoadingMessage("Please be patient while we get Departments...")
+        client.get("/api/department", {
+            params : {
+                faculty
+            }
+        }).then((response)=>{
+            const data = response.data.department
+            setDepartmentData(data);
+        })
+    },[faculty])
     const handleSignUp = () => {
         client.post("/student", newStudent)
         .then((response)=>{
@@ -79,14 +113,14 @@ export default function Signup(){
                         <View style={styles.iconContainer}>
 
                         </View>
-                        <TextInput placeholder="Faculty" onChangeText={(value)=>setFaculty(value)} />
+                        <Dropdown data={facultyData} labelField={"facultyName"} valueField={"facultyAbbr"} onChange={(value)=>setFaculty(value)} placeholder="Faculty"/>
                     </View>
 
                     <View style={styles.iconsContainer}>
                         <View style={styles.iconContainer}>
 
                         </View>
-                        <TextInput placeholder="Department" onChangeText={(value)=>setDepartment(value)} />
+                        <Dropdown data={departmentData} labelField={"departmentName"} valueField={"departmentAbbr"} onChange={(value)=>setDepartment(value)} placeholder="Department"/>
                     </View>
 
                     <View style={styles.iconsContainer}>
@@ -100,14 +134,14 @@ export default function Signup(){
                         <View style={styles.iconContainer}>
                             <Ionicons name="key" color={styles.iconsColor.color} size={25} />
                         </View>
-                        <TextInput placeholder="Password" onChangeText={(value)=>setPassword(value)} />
+                        <TextInput placeholder="Password" onChangeText={(value)=>setPassword(value)} secureTextEntry={true} />
                     </View>
 
                     <View style={styles.iconsContainer}>
                         <View style={styles.iconContainer}>
                             <Ionicons name="key" color={styles.iconsColor.color} size={25} />
                         </View>
-                        <TextInput placeholder="Confirm Password" onChangeText={(value)=>setConfirmPassword(value)} />
+                        <TextInput placeholder="Confirm Password" onChangeText={(value)=>setConfirmPassword(value)} secureTextEntry={true}/>
                     </View>
                 </View>
 

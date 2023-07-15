@@ -18,8 +18,7 @@ const initialState : UserType = {
         phoneNumber: '',
         faculty: '',
         department: '',
-        password: '',
-        confirmPassword: '',
+        role: "student",
         institutionalEmail: ''
     },
     newUser : {
@@ -29,6 +28,7 @@ const initialState : UserType = {
         phoneNumber: '',
         faculty: '',
         department: '',
+        role: "student",
         password: '',
         confirmPassword: '',
         institutionalEmail: ''
@@ -39,14 +39,14 @@ export const userSlice = createSlice({
     name: "User",
     initialState,
     reducers : {
-        globalAuth : (state, actiion : PayloadAction<boolean>) =>{
-            state.isAuth = actiion.payload
+        globalAuth : (state, action : PayloadAction<boolean>) =>{
+            state.isAuth = action.payload
         },
         createNewUser : (state, action) => {
 
         },
         currentUser : (state, action) => {
-
+            state.currentUser = action.payload
         }
     }
 })

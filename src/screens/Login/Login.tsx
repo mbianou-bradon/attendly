@@ -9,6 +9,8 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { NativeStackParams } from "../../../App";
 import client from "../../api/axios";
+import { useAppDispatch } from "../../redux/store/hooks";
+import { currentUser } from "../../redux/features/userSlices";
 
 
 
@@ -16,6 +18,7 @@ export default function Login(){
 
     const [matricule, setMatricule] = React.useState<string>("");
     const [password, setPassword] = React.useState<string>("");
+    const dispatch = useAppDispatch();
 
     const nativeNavigation = useNavigation<NativeStackNavigationProp<NativeStackParams>>();
 
@@ -33,14 +36,15 @@ export default function Login(){
                 ToastAndroid.CENTER
             )
         } else {
-            client.get("/api/login", {
+            client.post("/auth/login", {
                 params : {
-                    matricule,
-                    password
+                    userMatricule : matricule,
+                    userPassword : password
                 }
             })
             .then((response)=>{
-
+                const student = response.data.user
+                dispatch(currentUser(student));
                 nativeNavigation.replace("Main");
             })
             .catch((error)=>{

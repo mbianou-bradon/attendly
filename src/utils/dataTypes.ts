@@ -1,13 +1,14 @@
 export interface User {
-    matriculeNumber : string,
+    matriculeNumber? : string,
     studentName : string,
     email : string,
     phoneNumber : string,
     faculty : string,
     department : string,
-    password : string,
-    confirmPassword : string
-    institutionalEmail : string
+    role: "student",
+    password? : string,
+    confirmPassword? : string
+    institutionalEmail? : string
 }
 
 export interface Course {

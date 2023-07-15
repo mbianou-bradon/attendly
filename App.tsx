@@ -13,6 +13,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from "react-native-vector-icons/Ionicons"
 import SplashScreen from 'react-native-splash-screen';
+import client from './src/api/axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export type NativeStackParams = {
@@ -72,6 +74,11 @@ function App(): JSX.Element {
 
   React.useEffect(()=>{
     SplashScreen.hide();
+    client.get("/api/faculty")
+    .then((response)=>{
+      const faculty = response.data.faculty
+      AsyncStorage.setItem("@facultyList", JSON.stringify(faculty))
+    })
   },[])
 
   return (
