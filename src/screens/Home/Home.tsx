@@ -3,11 +3,10 @@ import styles from "./Home.screen.styles";
 import Button from "../../components/Button/Button";
 import { Dropdown } from "react-native-element-dropdown";
 import React from "react";
-import AntDesign from "react-native-vector-icons/AntDesign";
 import colors from "../../theme/theme";
-import client from "../../api/axios";
+import { client } from "../../api/axios";
 import { store } from "../../redux/store/store";
-import { Attendance } from "../../utils/dataTypes";
+import { Attendance } from "../../utils/DataTypes/dataTypes";
 
 
 
@@ -18,7 +17,7 @@ export default function Home(){
     const [isLevelFocus, setIsLevelFocus] = React.useState<boolean>(false);
     const [isCourseFocus, setIsCourseFocus] = React.useState<boolean>(false);
     const [courseData, setCourseData] = React.useState<string[]>([]);
-    const matricule = store.getState().currentUser.matriculeNumber;
+    const matricule = store.getState().currentUser.matriculeNumber!;
 
     const data = [
         {
@@ -71,7 +70,7 @@ export default function Home(){
             courseCode : courseValue,
             dateSigned : String(Date.now())
         }
-        client.post("/attendance", attendance)
+        client.post("/attendances", attendance)
         .then((response) =>{
             const data = response.data
             console.log(data)

@@ -1,17 +1,15 @@
 import React from "react";
 import { Pressable, ScrollView, Text, TextInput, ToastAndroid, View } from "react-native";
-import AntDesign from "react-native-vector-icons/AntDesign";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { AntDesign, Ionicons } from "../../utils/icons/icons"; 
 import Button from "../../components/Button/Button";
 import styles from "./Login.screen.styles";
 import colors from "../../theme/theme";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { NativeStackParams } from "../../../App";
-import client from "../../api/axios";
+import { client } from "../../api/axios";
 import { useAppDispatch } from "../../redux/store/hooks";
-import { currentUser } from "../../redux/features/userSlices";
-
+import { userSlice } from "../../redux/features/userSlices";
 
 
 export default function Login(){
@@ -44,7 +42,7 @@ export default function Login(){
             })
             .then((response)=>{
                 const student = response.data.user
-                dispatch(currentUser(student));
+                dispatch(userSlice.actions.currentUser(student));
                 nativeNavigation.replace("Main");
             })
             .catch((error)=>{

@@ -3,18 +3,14 @@ import {
   StatusBar,
   View,
 } from 'react-native';
-import Signup from './src/screens/signup/Signup';
+
 import colors from './src/theme/theme';
-import Login from './src/screens/Login/Login';
-import Home from './src/screens/Home/Home';
-import Profile from './src/screens/Profile/Profile';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from "react-native-vector-icons/Ionicons"
 import SplashScreen from 'react-native-splash-screen';
-import client from './src/api/axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Home, Login, Profile, Signup } from './src/screens';
 
 
 export type NativeStackParams = {
@@ -50,7 +46,7 @@ const TabNavigationRoute = () : JSX.Element => {
         },
         tabBarActiveTintColor : colors.primary,
         tabBarInactiveTintColor : colors.primary,
-        tabBarStyle : {height : 60,paddingBottom:5}
+        tabBarStyle : {height : 60, paddingBottom:5}
       })}
     >
       <Tab.Screen name='Home' component={Home} options={{headerShown : false}}/>
@@ -74,24 +70,25 @@ function App(): JSX.Element {
 
   React.useEffect(()=>{
     SplashScreen.hide();
-    client.get("/api/faculty")
-    .then((response)=>{
-      const faculty = response.data.faculty
-      AsyncStorage.setItem("@facultyList", JSON.stringify(faculty))
-    })
+    // client.get("/faculties")
+    // .then((response)=>{
+    //   const faculty = response.data.faculty
+    //   AsyncStorage.setItem("@facultyList", JSON.stringify(faculty))
+    // })
   },[])
 
   return (
     <NavigationContainer>
       <View style={{flex: 1}}>
         <StatusBar backgroundColor={colors.primary}/>
-        <RootStack.Navigator screenOptions={{headerShown:false}}>
+        <Login />
+        <RootStack.Navigator initialRouteName='Login' screenOptions={{headerShown:false}}>
           <RootStack.Screen name='Login' component={Login} />
           <RootStack.Screen name='Sign Up' component={Signup} />
           <RootStack.Screen name='Main' component={TabNavigationRoute} />
         </RootStack.Navigator>
       </View>
-    </NavigationContainer>
+    // </NavigationContainer>
     
   )
 }

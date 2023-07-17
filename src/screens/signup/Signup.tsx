@@ -1,18 +1,15 @@
 import React from "react";
 import { Text, TextInput, View, ScrollView, Pressable } from "react-native";
 import styles from "./Signup.screen.styles";
-import Ionicons from "react-native-vector-icons/Ionicons"
-import MaterialIcons from "react-native-vector-icons/MaterialIcons"
-import AntDesign from "react-native-vector-icons/AntDesign"
+import { Ionicons, MaterialIcons } from "../../utils/icons/icons";
 import Button from "../../components/Button/Button";
 import { NativeStackParams } from "../../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import client from "../../api/axios";
-import { User } from "../../utils/dataTypes";
-import { Dropdown } from "react-native-element-dropdown";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import getAsyncData from "../../utils/getAsyncStorage";
+import { client } from "../../api/axios";
+import { User } from "../../utils/DataTypes/dataTypes";
+// import  { Dropdown }  from "react-native-element-dropdown";
+import getAsyncData from "../../utils/getAsyncStorage/getAsyncStorage";
 
 
 export default function Signup(){
@@ -40,11 +37,12 @@ export default function Signup(){
     }
 
     React.useEffect(()=>{
-        const facultList = getAsyncData("facultyList")
+        const facultList = getAsyncData("@facultyList")
         if(!facultList){
-            client.get("/api/faculty")
+            client.get("/faculties")
             .then((response)=>{
-                setFacultyData(facultList)
+                const data = response.data.faculty
+                setFacultyData(data)
             }).catch((error)=>{
                 console.log("faculty error:", error)
             })
@@ -55,7 +53,7 @@ export default function Signup(){
     React.useEffect(()=>{
         setIsLoading(true);
         setLoadingMessage("Please be patient while we get Departments...")
-        client.get("/api/department", {
+        client.get("/department", {
             params : {
                 faculty
             }
@@ -64,13 +62,15 @@ export default function Signup(){
             setDepartmentData(data);
         })
     },[faculty])
+
+    /**Handle SignUp function */
     const handleSignUp = () => {
-        client.post("/student", newStudent)
+        client.post("/students", newStudent)
         .then((response)=>{
-            nativeNavigation.navigate("Main");
+            nativeNavigation.navigate("Login");
         }).catch((error)=>{
             console.log("SignUp error", error)
-            nativeNavigation.navigate("Main")
+            // nativeNavigation.navigate("Main")
         })
         
     }
@@ -88,12 +88,6 @@ export default function Signup(){
                 </View>
 
                 <View>
-                    {/* <View style={styles.iconsContainer}>
-                        <View style={styles.iconContainer}>
-                            <AntDesign name="idcard" color={styles.iconsColor.color} size={25} />
-                        </View>
-                        <TextInput placeholder="Matriculation Number" onChangeText={(value)=>setMatricule(value)} />
-                    </View> */}
 
                     <View style={styles.iconsContainer}>
                         <View style={styles.iconContainer}>
@@ -113,14 +107,14 @@ export default function Signup(){
                         <View style={styles.iconContainer}>
 
                         </View>
-                        <Dropdown data={facultyData} labelField={"facultyName"} valueField={"facultyAbbr"} onChange={(value)=>setFaculty(value)} placeholder="Faculty"/>
+                        {/* <Dropdown data={facultyData} labelField={"facultyName"} valueField={"facultyAbbr"} onChange={(value)=>setFaculty(value)} placeholder="Faculty"/> */}
                     </View>
 
                     <View style={styles.iconsContainer}>
                         <View style={styles.iconContainer}>
 
                         </View>
-                        <Dropdown data={departmentData} labelField={"departmentName"} valueField={"departmentAbbr"} onChange={(value)=>setDepartment(value)} placeholder="Department"/>
+                        {/* <Dropdown data={departmentData} labelField={"departmentName"} valueField={"departmentAbbr"} onChange={(value)=>setDepartment(value)} placeholder="Department"/> */}
                     </View>
 
                     <View style={styles.iconsContainer}>
