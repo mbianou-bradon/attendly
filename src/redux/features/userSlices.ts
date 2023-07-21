@@ -5,7 +5,6 @@ import { User } from '../../utils/DataTypes/dataTypes'
 interface UserType {
     isAuth : boolean,
     currentUser : User,
-    newUser : User
 }
 
 
@@ -21,18 +20,6 @@ const initialState : UserType = {
         role: "student",
         institutionalEmail: ''
     },
-    newUser : {
-        matriculeNumber: '',
-        studentName: '',
-        email: '',
-        phoneNumber: '',
-        faculty: '',
-        department: '',
-        role: "student",
-        password: '',
-        confirmPassword: '',
-        institutionalEmail: ''
-    }
 }
 
 export const userSlice = createSlice({
@@ -42,14 +29,11 @@ export const userSlice = createSlice({
         globalAuth : (state, action : PayloadAction<boolean>) =>{
             state.isAuth = action.payload
         },
-        createNewUser : (state, action) => {
-
-        },
         currentUser : (state, action) => {
             state.currentUser = action.payload
         }
     }
 })
 
-export const { globalAuth, createNewUser, currentUser } = userSlice.actions
+export const { globalAuth, currentUser } = userSlice.actions
 export default userSlice.reducer

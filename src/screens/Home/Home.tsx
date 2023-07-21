@@ -1,25 +1,36 @@
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import styles from "./Home.screen.styles";
-import Button from "../../components/Button/Button";
+import { Button, LoadingScreen } from "../../components";
 import { Dropdown } from "react-native-element-dropdown";
 import React from "react";
 import colors from "../../theme/theme";
 import { client } from "../../api/axios";
 import { store } from "../../redux/store/store";
 import { Attendance } from "../../utils/DataTypes/dataTypes";
+import { HandleError } from "../../utils";
 
 
 
 export default function Home(){
 
-    const [levelValue, setLevelValue] = React.useState<string>("")
-    const [courseValue, setCourseValue] = React.useState<string>("")
+    const [levelValue, setLevelValue] = React.useState<string>(" ")
+    const [courseValue, setCourseValue] = React.useState<string>(" ")
     const [isLevelFocus, setIsLevelFocus] = React.useState<boolean>(false);
     const [isCourseFocus, setIsCourseFocus] = React.useState<boolean>(false);
-    const [courseData, setCourseData] = React.useState<string[]>([]);
+    const [courseData, setCourseData] = React.useState<[]>([]);
     const matricule = store.getState().currentUser.matriculeNumber!;
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const user = store.getState().currentUser
+    const firstName = user.studentName.split(" ")[0]
 
+    /**Formatted date of today */
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString('en-US', {month: "long", day: "numeric"})
     const data = [
+        {
+            label: "500",
+            value: "500"
+        },
         {
             label: "400",
             value : "400",
@@ -35,51 +46,59 @@ export default function Home(){
 
     ]
 
-    const dataCourses = [
-        {
-            label: "CEF345",
-            value : "CEF345",
-        },
-        {
-            label: "CEF321",
-            value : "CEF321",
-        },
-        {
-            label: "CEF350",
-            value : "CEF350",
-        },
-
-    ]
-
     React.useEffect(()=>{
-        client.get("/courses", {
-            params : {
-                level : levelValue
-            }
-        }).then((response)=>{
-            const data = response.data
-            setCourseData(data)
-        }).catch((error)=>{
-            console.log("Fetching Courses:", error)
-        })
+        if(levelValue !== " "){
+            setIsLoading(true);
+            client.get(`/courses?faculty=${user.faculty}&dept=&level=${levelValue}&isOpen=true`).then((response)=>{
+                const data = response.data.course
+                console.log(data)
+                setCourseData(data)
+                setIsLoading(false)
+            }).catch((error)=>{
+                console.log("Fetching Courses:", error)
+                setIsLoading(false)
+                HandleError(`${error.message}`);
+            })
+        }
     },[levelValue])
 
     const handleMarkAttendance = () => {
-        const attendance : Attendance = {
-            studentMatriculeNumber : matricule,
-            courseCode : courseValue,
-            dateSigned : String(Date.now())
+        if(courseValue === " "){
+            HandleError("Please select course you want to sign attendance for!")
+        } else {
+            setIsLoading(true);
+            const attendance : Attendance = {
+                studentMatriculeNumber : `${user.matriculeNumber}`,
+                courseCode : courseValue,
+                dateSigned : formattedDate,
+            }
+            client.post("/attendances", attendance)
+            .then((response) =>{
+                const data = response.data
+                console.log(data);
+                Alert.alert('Attendance Signing', `You have successfully Mark yourself PRESENT for ${courseValue}`, [
+                    {
+                        text: 'Ok, Thanks',
+                        onPress: () => console.log('Cancel Pressed'),
+                    }
+                ]
+                )
+                setIsLoading(false);
+                setLevelValue(" ");
+                setCourseValue(" ");
+            }).catch((error)=>{
+                console.log("Attendance Recording:", error)
+                HandleError(`${error.message}`)
+                setIsLoading(false);
+            })
         }
-        client.post("/attendances", attendance)
-        .then((response) =>{
-            const data = response.data
-            console.log(data)
-        }).catch((error)=>{
-            console.log("Attendance Recording:", error)
-        })
     }
 
     return(
+        <>
+        {
+            isLoading && <LoadingScreen text={"Fetching Courses for the selected level, Please wait...."}/>
+        }
         <View style={styles.homeMainContainer}>
             <View>
                 <View style={styles.logoContainer}>
@@ -88,9 +107,9 @@ export default function Home(){
 
                 <View>
                     <View>
-                        <Text style={styles.welcomeUser}>Hello Mbianou</Text>
-                        <Text style={styles.userDetails}>Matricule: FE19A060</Text>
-                        <Text style={styles.userDetails}>Dept: Computer Engineering</Text>
+                        <Text style={styles.welcomeUser}>Hello {firstName}</Text>
+                        <Text style={styles.userDetails}>Matricule: {user.matriculeNumber}</Text>
+                        <Text style={styles.userDetails}>Dept: {user.department}</Text>
                     </View>
 
                     <View style={styles.attendanceContainer}>
@@ -116,7 +135,7 @@ export default function Home(){
                                     setLevelValue(item.value);
                                     setIsLevelFocus(false);
                                 }}
-                            
+                                disable={isLoading}
                             />
                         </View>
                         <View>
@@ -126,31 +145,32 @@ export default function Home(){
                                 selectedTextStyle={styles.selectedTextStyle}
                                 inputSearchStyle={styles.inputSearchStyle}
                                 iconStyle={styles.iconStyle}
-                                data={dataCourses}
+                                data={courseData}
                                 search
                                 maxHeight={300}
-                                labelField="label"
-                                valueField="value"
+                                labelField="courseCode"
+                                valueField="courseCode"
                                 placeholder={!isCourseFocus ? 'Select Course' : '...'}
                                 searchPlaceholder="Search"
                                 value={courseValue}
                                 onFocus={() => setIsCourseFocus(true)}
                                 onBlur={() => setIsCourseFocus(false)}
                                 onChange={item => {
-                                    setCourseValue(item.value);
+                                    setCourseValue(item);
                                     setIsCourseFocus(false);
                                 }}
-                            
+                                disable={isLoading}
                             />
                             {/* <Text style={styles.dropdownText}>Select Course</Text> */}
                         </View>
 
                         <View style={styles.btnContainer}>
-                            <Button text="Make Present" onPress={()=>handleMarkAttendance()}/>
+                            <Button text="Make Present" onPress={()=>handleMarkAttendance()} disable={isLoading}/>
                         </View>
                     </View>
                 </View>
             </View>
         </View>
+    </>
     )
 }

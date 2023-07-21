@@ -1,5 +1,3 @@
-
-
 const colors = {
     primary : "#4b446e",
     primary_light: "#4b446e/20",
