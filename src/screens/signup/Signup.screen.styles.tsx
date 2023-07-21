@@ -85,6 +85,25 @@ const styles = StyleSheet.create({
         color: colors.secondary,
 
     },
+    dropdownContainer: {
+        justifyContent: "center",
+        width : "75%"
+    },
+    placeholderStyle: {
+        fontSize: 14,
+        fontWeight: "300",
+    },
+    selectedTextStyle : {
+        color : colors.primary
+    },
+    inputSearchStyle : {
+        color : colors.neutral_black
+    },
+    iconStyle : {
+        width : 20, 
+        height : 20,
+        color : colors.neutral_white
+    }
 })
 
 export default styles;
